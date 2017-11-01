@@ -1,8 +1,8 @@
 {
-  "name": "worker-loader",
+  "name": "ddder-worker-loader",
   "version": "1.1.0",
-  "author": "Tobias Koppers @sokra",
-  "description": "worker loader module for webpack",
+  "author": "SamHwang1990",
+  "description": "ddder worker loader module for webpack, fork from webpack-contrib",
   "main": "dist/cjs.js",
   "files": [
     "dist"
@@ -59,7 +59,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/webpack-contrib/worker-loader.git"
+    "url": "https://github.com/Ddder-FE/worker-loader.git"
   },
   "license": "MIT",
   "pre-commit": "lint-staged",

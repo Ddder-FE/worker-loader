@@ -7,6 +7,7 @@
   no-underscore-dangle,
   prefer-destructuring
 */
+import path from 'path';
 import schema from './options.json';
 import loaderUtils from 'loader-utils';
 import validateOptions from 'schema-utils';
@@ -22,6 +23,7 @@ export default function loader() {}
 
 export function pitch(request) {
   const options = loaderUtils.getOptions(this) || {};
+  const resourcePath = this.resourcePath;
 
   validateOptions(schema, options, 'Worker Loader');
 
@@ -68,6 +70,15 @@ export function pitch(request) {
 
       compilation.cache = compilation.cache[subCache];
     }
+
+    // in nextly worker mode, we need to expose module.exports to global
+    compilation.plugin('build-module', (module) => {
+      if (module.request === resourcePath) {
+        module.loaders.push({
+          loader: path.resolve(__dirname, './global-expose-loader'),
+        });
+      }
+    });
   });
 
   worker.compiler.runAsChild((err, entries, compilation) => {
@@ -86,7 +97,18 @@ export function pitch(request) {
         delete this._compilation.assets[worker.file];
       }
 
-      return cb(null, `module.exports = function() {\n  return ${worker.factory};\n};`);
+      const publicPath = options.publicPath ? JSON.stringify(options.publicPath) : '__webpack_public_path__';
+      const publicWorkerPath = `${publicPath} + ${JSON.stringify(worker.file)}`;
+
+      return cb(null, `
+      module.exports = function(key) {
+        if (key) {
+          return new Worker(key, ${publicWorkerPath});
+        } else {
+          return new Worker(${publicWorkerPath});
+        }
+      };
+      `);
     }
 
     return cb(null, null);
