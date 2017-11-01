@@ -1,6 +1,6 @@
 {
-  "name": "ddder-worker-loader",
-  "version": "1.1.0",
+  "name": "@ddder/worker-loader",
+  "version": "1.1.1",
   "author": "SamHwang1990",
   "description": "ddder worker loader module for webpack, fork from webpack-contrib",
   "main": "dist/cjs.js",
@@ -59,7 +59,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ddder-FE/worker-loader.git"
+    "url": "git+https://github.com/Ddder-FE/worker-loader.git"
   },
   "license": "MIT",
   "pre-commit": "lint-staged",
@@ -68,5 +68,12 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "bugs": {
+    "url": "https://github.com/Ddder-FE/worker-loader/issues"
+  },
+  "homepage": "https://github.com/Ddder-FE/worker-loader#readme",
+  "directories": {
+    "test": "test"
   }
 }
